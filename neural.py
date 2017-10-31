@@ -7,7 +7,7 @@ Neural network example
 import numpy as np
 # from matplotlib import pyplot as plt
 import mnist_loader
-from PIL import Image
+# from PIL import Image
 
 class Network(object):
 
@@ -143,24 +143,24 @@ def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
 
-def imageToInput(filename):
-    im = Image.open(filename)
-    pix = im.load()
-    pix_data = np.array([ [(1-(sum(pix[x,y])/765))] for y in range(28) for x in range(28)])
-    max_value = max(pix_data)
-    if not max_value == 0:
-        pix_data = [i/max_value for i in pix_data]
-    return pix_data
-
-def inputToImage(input_data, filename):
-    mode = 'L'
-    im = Image.new(mode, (28, 28))
-    pix = im.load()
-    for y in range(28):
-        for x in range(28):
-            value = int(255*(1-input_data[28*y+x][0]))
-            pix[x,y] = (value,)
-    im.save(filename)
+# def imageToInput(filename):
+#     im = Image.open(filename)
+#     pix = im.load()
+#     pix_data = np.array([ [(1-(sum(pix[x,y])/765))] for y in range(28) for x in range(28)])
+#     max_value = max(pix_data)
+#     if not max_value == 0:
+#         pix_data = [i/max_value for i in pix_data]
+#     return pix_data
+# 
+# def inputToImage(input_data, filename):
+#     mode = 'L'
+#     im = Image.new(mode, (28, 28))
+#     pix = im.load()
+#     for y in range(28):
+#         for x in range(28):
+#             value = int(255*(1-input_data[28*y+x][0]))
+#             pix[x,y] = (value,)
+#     im.save(filename)
 
 def loadTrainingData(filename):
     inputFile = open(filename, 'r')
@@ -216,7 +216,7 @@ np.random.seed(420)
 training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
 training_data = list(training_data)
 test_data = list(test_data)
-pix_data = imageToInput('test.png')
+# pix_data = imageToInput('test.png')
 
 nn = Network([784, 30, 10])
 # nn.SGD(training_data, 30, 10, 2.5, test_data=test_data)
@@ -224,7 +224,7 @@ nn = Network([784, 30, 10])
 nn.fromFile('model5.npz')
 
 print('score = {:.2f} %'.format(nn.evaluate(test_data)/100))
-results = nn.feedforward(pix_data)
-print('You wrote: {}'.format(np.argmax(results)))
+# results = nn.feedforward(pix_data)
+# print('You wrote: {}'.format(np.argmax(results)))
 # for i in range(10):
 #     print('{}: {:4.1f} %'.format(i, 100*results[i][0]))
