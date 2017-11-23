@@ -24,8 +24,9 @@ net = Network([784, 30, 30, 10])
  at a time, a learning rate η=0.1, and regularization parameter λ=5.0.
  As we train we'll monitor the classification accuracy on the validation_data.
  '''
-# net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, evaluation_data=validation_data, monitor_evaluation_accuracy=True)
-# net.save('784_30_30_10')
-net.load('784_30_30_10.npz')
+print('Network training started...\n')
+net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+net.save('784_30_30_10')
+# net.load('784_30_30_10.npz')
 
 print('score = {:.2f} %'.format(net.accuracy(test_data)/100))

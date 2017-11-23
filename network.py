@@ -9,6 +9,7 @@ using backpropagation.
 
 import numpy as np
 
+
 class Network(object):
 
     def __init__(self, sizes):
@@ -128,7 +129,7 @@ class Network(object):
         """Save the neural network to the file ``filename``."""
         np.savez(filename, sizes=self.sizes, weights=self.weights, biases=self.biases)
 
-    def load(filename):
+    def load(self, filename):
         """Load the neural network from the file ``filename``."""
         model_file = np.load(filename)
         self.sizes = model_file['sizes']
@@ -150,10 +151,12 @@ class Network(object):
         a.write('biases:\n{}\n'.format('\n'.join(str(b) for b in self.biases)))
         a.close()
 
+
 #### Miscellaneous functions
 def sigmoid(z):
     """The sigmoid function."""
     return 1.0/(1.0+np.exp(-z))
+
 
 def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
