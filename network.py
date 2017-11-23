@@ -124,17 +124,19 @@ class Network(object):
         \partial a for the output activations."""
         return (output_activations-y)
     
-    def toFile(self, filename):
+    def save(self, filename):
+        """Save the neural network to the file ``filename``."""
         np.savez(filename, sizes=self.sizes, weights=self.weights, biases=self.biases)
 
-    def fromFile(self, filename):
+    def load(filename):
+        """Load the neural network from the file ``filename``."""
         model_file = np.load(filename)
         self.sizes = model_file['sizes']
         self.num_layers = len(self.sizes)
         self.weights = model_file['weights']
         self.biases = model_file['biases']
     
-    def toReadableFile(self, filename):
+    def toFile(self, filename):
         a = open(filename, 'a')
         a.write('sizes:{}\n'.format(self.sizes))
         a.write('weights:\n')
