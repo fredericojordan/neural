@@ -10,18 +10,12 @@ easily modifiable.  It is not optimized, and omits many desirable
 features.
 
 """
-
-#### Libraries
-# Standard library
-import json
 import random
-import sys
 
-# Third-party libraries
 import numpy as np
 
 
-#### Define the quadratic and cross-entropy cost functions
+#  Define the quadratic and cross-entropy cost functions
 
 class QuadraticCost(object):
 
@@ -64,8 +58,8 @@ class CrossEntropyCost(object):
         return (a-y)
 
 
-#### Main Network class
 class Network(object):
+    """Main Network class"""
 
     def __init__(self, sizes, cost=CrossEntropyCost):
         """The list ``sizes`` contains the number of neurons in the respective
@@ -81,7 +75,7 @@ class Network(object):
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.default_weight_initializer()
-        self.cost=cost
+        self.cost = cost
 
     def default_weight_initializer(self):
         """Initialize each weight using a Gaussian distribution with mean 0
@@ -116,7 +110,7 @@ class Network(object):
         instead.
 
         """
-        self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
+        self.biases = [np.random.randn(y) for y in self.sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 
@@ -281,7 +275,8 @@ class Network(object):
         cost = 0.0
         for x, y in data:
             a = self.feedforward(x)
-            if convert: y = vectorized_result(y)
+            if convert:
+                y = vectorized_result(y)
             cost += self.cost.fn(a, y)/len(data)
         cost += 0.5*(lmbda/len(data))*sum(
             np.linalg.norm(w)**2 for w in self.weights)
@@ -302,7 +297,9 @@ class Network(object):
         self.weights = model_file['weights']
         self.biases = model_file['biases']
 
-#### Miscellaneous functions
+
+#  Miscellaneous functions
+
 def vectorized_result(j):
     """Return a 10-dimensional unit vector with a 1.0 in the j'th position
     and zeroes elsewhere.  This is used to convert a digit (0...9)
@@ -313,9 +310,11 @@ def vectorized_result(j):
     e[j] = 1.0
     return e
 
+
 def sigmoid(z):
     """The sigmoid function."""
     return 1.0/(1.0+np.exp(-z))
+
 
 def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
