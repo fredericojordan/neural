@@ -6,6 +6,7 @@ Neural network example
 
 import numpy as np
 import mnist_loader
+from PIL import Image
 
 from network import Network
 
@@ -23,9 +24,33 @@ nn.SGD(training_data, 30, 10, 2.5, test_data=test_data)
 print('score = {:.2f} %'.format(nn.evaluate(test_data)/100))
 
 
+def input2png(input_data, filename):
+    mode = 'L'
+    im = Image.new(mode, (28, 28))
+    pix = im.load()
+    for y in range(28):
+        for x in range(28):
+            value = int(255*(1-input_data[28*y+x]))
+            pix[x,y] = (value,)
+    im.save('{}.png'.format(filename))
+
+
+def png2input(filename):
+    im = Image.open('{}.png'.format(filename))
+    pix = im.load()
+    pix_data = np.array([[(1-(pix[x, y]/255))] for y in range(28) for x in range(28)])
+    # pix_data = np.array([[(1-(sum(pix[x, y])/(255*len(pix[x, y]))))] for y in range(28) for x in range(28)])
+    return normalize(pix_data)
+
+
+def normalize(some_list):
+    max_value = max(some_list)
+    if not max_value == 0:
+        some_list = [i/max_value for i in some_list]
+    return some_list
 
 # from PIL import Image
-# 
+#
 # def imageToInput(filename):
 #     im = Image.open(filename)
 #     pix = im.load()
